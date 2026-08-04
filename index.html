@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New platform navigation — naming options</title>
+<style>
+  :root{
+    --green:#16C05F;--green-dark:#0FA34E;--ink:#1F2430;--muted:#6B7280;
+    --line:#E7EAEE;--active-bg:#EAF7EF;--active-ink:#0FA34E;--bg:#F4F6F8;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;}
+  .wrap{max-width:1240px;margin:0 auto;padding:30px 24px 70px;}
+  h1{font-size:24px;margin:0 0 8px;letter-spacing:-.01em;}
+  .lead{font-size:15.5px;color:var(--ink);max-width:760px;margin:0 0 6px;}
+  .lead b{color:var(--ink);}
+  .disclaimer{background:#F1FAF4;border:1px solid #CDEBD8;color:#357552;border-radius:10px;padding:12px 15px;font-size:13px;max-width:760px;margin:16px 0 4px;}
+
+  .deciding{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:24px 0;box-shadow:0 1px 2px rgba(16,24,40,.04);}
+  .deciding h2{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 14px;font-weight:700;}
+  .deciding ol{margin:0;padding-left:20px;}
+  .deciding li{margin-bottom:9px;font-size:14px;}
+  .deciding li b{color:var(--ink);}
+  .deciding li span{color:var(--muted);}
+
+  .layout{display:flex;gap:26px;align-items:flex-start;}
+  .controls{flex:0 0 372px;}
+  .preview{flex:1;position:sticky;top:22px;min-width:0;}
+  @media(max-width:980px){.layout{flex-direction:column;}.controls{flex:none;width:100%;}.preview{position:static;width:100%;}}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 20px;box-shadow:0 1px 2px rgba(16,24,40,.04);margin-bottom:18px;}
+  .card .qh{font-size:15px;font-weight:700;margin:0 0 3px;}
+  .card .qd{font-size:12.8px;color:var(--muted);margin:0 0 14px;line-height:1.5;}
+  .card .qnum{color:var(--green-dark);}
+
+  .radio-opt{display:flex;align-items:flex-start;gap:11px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:border-color .12s,background .12s;}
+  .radio-opt:last-child{margin-bottom:0;}
+  .radio-opt:hover{border-color:#BDE7CD;}
+  .radio-opt.on{border-color:var(--green);background:var(--active-bg);}
+  .radio-opt input{margin:2px 0 0;accent-color:var(--green);width:16px;height:16px;flex:0 0 16px;cursor:pointer;}
+  .radio-opt .rl{font-size:14px;font-weight:600;color:var(--ink);}
+  .radio-opt .rs{display:block;font-size:12px;color:var(--muted);font-weight:400;margin-top:1px;}
+
+  .go{background:var(--green);color:#fff;border:none;border-radius:10px;padding:13px 18px;font-size:14.5px;font-weight:600;cursor:pointer;width:100%;text-decoration:none;display:block;text-align:center;}
+  .go:hover{background:var(--green-dark);}
+  .go-note{font-size:12px;color:var(--muted);text-align:center;margin-top:9px;}
+
+  /* full-page app preview */
+  .app{display:flex;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 10px 34px rgba(16,24,40,.10);background:#fff;min-height:560px;}
+  .app-side{width:236px;flex:0 0 236px;background:#fff;border-right:1px solid var(--line);padding:14px 12px;}
+  .brand{display:flex;align-items:center;gap:7px;padding:6px 8px 16px;}
+  .brand .dot{width:20px;height:20px;border-radius:6px;background:var(--green);display:flex;align-items:center;justify-content:center;}
+  .brand .dot svg{width:13px;height:13px;color:#fff;}
+  .brand span{font-weight:800;font-size:16px;color:var(--green);letter-spacing:-.02em;}
+  .nav-item{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:9px;font-size:13.5px;color:#4B5563;margin:1px 0;font-weight:500;}
+  .nav-item svg{width:17px;height:17px;flex:0 0 17px;color:#8A93A2;}
+  .nav-item.active{background:var(--active-bg);color:var(--active-ink);font-weight:600;}
+  .nav-item.active svg{color:var(--active-ink);}
+  .nav-div{height:1px;background:var(--line);margin:10px 6px;}
+
+  .app-main{flex:1;background:#F7F8FA;padding:22px 24px;min-width:0;}
+  .pg-title{font-size:18px;font-weight:700;margin:0 0 2px;}
+  .pg-chip{display:inline-block;font-size:12px;color:var(--muted);background:#EEF1F4;border-radius:20px;padding:3px 11px;margin-bottom:20px;}
+  .sk-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px;}
+  .sk-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;}
+  .sk-line{height:9px;border-radius:5px;background:#EAEDF1;margin-bottom:9px;}
+  .sk-line.w40{width:40%;}.sk-line.w60{width:60%;}.sk-line.w80{width:80%;}
+  .sk-num{height:22px;width:52%;border-radius:6px;background:#E1E5EA;margin:4px 0 12px;}
+  .sk-big{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;height:200px;position:relative;overflow:hidden;}
+  .sk-bars{display:flex;align-items:flex-end;gap:12px;height:130px;margin-top:22px;}
+  .sk-bars i{flex:1;background:#E6F5EC;border-radius:6px 6px 0 0;display:block;}
+  .cap{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Help name the new platform&rsquo;s navigation</h1>
+  <p class="lead">We&rsquo;re building the new BrightLocal platform, and the words in the navigation matter more than they might seem &mdash; they&rsquo;re how every customer finds their way around. A few feature names are still up in the air, and before we lock them in we&rsquo;d really value your take. To be clear, we&rsquo;re not renaming the platform itself &mdash; just a handful of <b>features</b> within it &mdash; and there are no wrong answers. Pick what feels clearest to you, and tell us why.</p>
+
+  <div class="deciding">
+    <h2>What we&rsquo;re trying to achieve</h2>
+    <ul>
+      <li><b>Clearer communication</b> <span>&mdash; names that mean the same thing to customers, support, sales and product, so we&rsquo;re all talking about features the same way.</span></li>
+      <li><b>Names that work together</b> <span>&mdash; labels that make sense as a set in the navigation, not just on their own.</span></li>
+      <li><b>Less confusion, more clarity</b> <span>&mdash; especially where names currently overlap, like &ldquo;AI Insights&rdquo; and &ldquo;Local AI Visibility&rdquo;.</span></li>
+    </ul>
+  </div>
+
+  <div class="deciding">
+    <h2>What we&rsquo;re deciding</h2>
+    <ol>
+      <li><b>What to call &ldquo;AI Insights&rdquo;</b> <span>&mdash; the feature that turns your local search data into a prioritised list of recommendations and actions on what to do next.</span></li>
+      <li><b>How to name the visibility features</b> <span>&mdash; Local Search Grid, Local Rank Tracker and Local AI Visibility: branded product names, or plainer &ldquo;what you get&rdquo; language.</span></li>
+      <li><b>Reputation Manager or Review Manager</b> <span>&mdash; this feature includes review insights, review management, review generation and review widgets. Do we use a branded product name like Reputation Manager, or something simpler like Reputation &amp; Reviews?</span></li>
+    </ol>
+  </div>
+
+  <p class="lead" style="font-size:14px;color:var(--muted);">As you look at each option, it helps to ask yourself: does the name say what the feature does? Would a brand-new customer understand it? And does it read well alongside the others?</p>
+
+  <div class="layout">
+    <!-- CONTROLS -->
+    <div class="controls">
+      <div class="card">
+        <div class="qh"><span class="qnum">1 ·</span> What do we call &ldquo;AI Insights&rdquo;?</div>
+        <div class="qd">The feature that turns your data into a prioritised list of what to do next.</div>
+        <div id="aiOpts"></div>
+      </div>
+
+      <div class="card">
+        <div class="qh"><span class="qnum">2 ·</span> How do we name the visibility features?</div>
+        <div class="qd">This one is about <b>approach</b>: name them by what customers get or where they show up (plainer language), or keep our branded product names. The features are the same either way.</div>
+        <div id="visOpts"></div>
+      </div>
+
+      <div class="card">
+        <div class="qh"><span class="qnum">3 ·</span> How do we name the reviews &amp; reputation feature?</div>
+        <div class="qd">This feature includes review insights, review management, review generation and review widgets. Do we use a branded product name, or something simpler?</div>
+        <div id="repOpts"></div>
+      </div>
+
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="preview">
+      <div class="disclaimer" style="max-width:none;margin:0 0 14px;">Design disclaimer: this is an indicative mock-up &mdash; the layout, icons, spacing and page content are all placeholders. Please focus on the <b>names</b>, not the visual design.</div>
+      <div class="app">
+        <div class="app-side" id="appSide"></div>
+        <div class="app-main">
+          <div class="pg-title">Location Dashboard</div>
+          <div class="pg-chip">Sample business · 3 locations</div>
+          <div class="sk-row">
+            <div class="sk-card"><div class="sk-line w60"></div><div class="sk-num"></div><div class="sk-line w80"></div></div>
+            <div class="sk-card"><div class="sk-line w40"></div><div class="sk-num"></div><div class="sk-line w60"></div></div>
+            <div class="sk-card"><div class="sk-line w60"></div><div class="sk-num"></div><div class="sk-line w40"></div></div>
+          </div>
+          <div class="sk-big">
+            <div class="sk-line w40"></div>
+            <div class="sk-bars"><i style="height:55%"></i><i style="height:72%"></i><i style="height:48%"></i><i style="height:83%"></i><i style="height:66%"></i><i style="height:90%"></i><i style="height:61%"></i></div>
+          </div>
+          <div class="cap">Sample page content — placeholder, to show the nav in context.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- Lucide icons (BrightLocal DS set) ---------- */
+const P = {
+  pin:'<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+  heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>',
+  dashboard:'<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',
+  sparkles:'<path d="M9.94 14.06A2 2 0 0 0 8.5 12.6l-5.6-1.45a.5.5 0 0 1 0-.96L8.5 8.74A2 2 0 0 0 9.94 7.3l1.45-5.6a.5.5 0 0 1 .96 0L13.8 7.3a2 2 0 0 0 1.44 1.44l5.6 1.45a.5.5 0 0 1 0 .96l-5.6 1.45a2 2 0 0 0-1.44 1.44l-1.45 5.6a.5.5 0 0 1-.96 0Z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
+  grid:'<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/>',
+  trending:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+  eye:'<path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/>',
+  map:'<path d="M14.1 5.55a2 2 0 0 0 1.8 0l3.65-1.83A1 1 0 0 1 21 4.62v12.76a1 1 0 0 1-.55.9l-4.55 2.27a2 2 0 0 1-1.8 0l-4.2-2.1a2 2 0 0 0-1.8 0l-3.65 1.82A1 1 0 0 1 3 19.38V6.62a1 1 0 0 1 .55-.9l4.55-2.27a2 2 0 0 1 1.8 0Z"/><path d="M15 5.76v15"/><path d="M9 3.24v15"/>',
+  search:'<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>',
+  bot:'<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>',
+  link:'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+  star:'<path d="M11.52 2.3a.53.53 0 0 1 .95 0l2.31 4.68a2.12 2.12 0 0 0 1.6 1.16l5.16.76a.53.53 0 0 1 .3.9l-3.74 3.64a2.12 2.12 0 0 0-.61 1.88l.88 5.14a.53.53 0 0 1-.77.56l-4.62-2.43a2.12 2.12 0 0 0-1.97 0L6.4 21.01a.53.53 0 0 1-.77-.56l.88-5.14a2.12 2.12 0 0 0-.61-1.88L2.16 9.8a.53.53 0 0 1 .29-.9l5.17-.76a2.12 2.12 0 0 0 1.6-1.16Z"/>',
+  building:'<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
+  chart:'<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+  settings:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="3"/>',
+  file:'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>'
+};
+function ic(name){return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[name]}</svg>`;}
+
+/* ---------- Options data ---------- */
+const AI_OPTS = [
+  {id:'actions',   label:'Actions'},
+  {id:'insights',  label:'Insights'},
+  {id:'ins_act',   label:'Insights & actions'},
+  {id:'recs',      label:'Recommendations'},
+  {id:'rec_act',   label:'Recommended actions'},
+  {id:'fixit',     label:'Fix it'},
+  {id:'takeaction',label:'Take action'}
+];
+
+const VIS = {
+  A:{key:'A', name:'Plain language',
+     sub:'Google Maps / Local Pack · Google Organic · Google AI Mode & ChatGPT',
+     children:[
+       {icon:'map',    label:'Google Maps / Local Pack'},
+       {icon:'search', label:'Google Organic'},
+       {icon:'bot',    label:'Google AI Mode & ChatGPT'}
+     ]},
+  B:{key:'B', name:'Branded names',
+     sub:'Local Search Grid · Local Rank Tracker · Local AI Visibility',
+     children:[
+       {icon:'grid',     label:'Local Search Grid'},
+       {icon:'trending', label:'Local Rank Tracker'},
+       {icon:'eye',      label:'Local AI Visibility'}
+     ]}
+};
+
+const REP_OPTS = [
+  {id:'rep',     label:'Reputation Manager',  sub:'branded — signals reviews, ratings and response'},
+  {id:'rev',     label:'Review Manager',      sub:'branded — narrower, focused on reviews'},
+  {id:'rep_rev', label:'Reputation & Reviews',sub:'simpler — plain-language description'}
+];
+
+let state = {ai:'actions', vis:'B', rep:'rev'};
+
+function aiLabel(){return AI_OPTS.find(o=>o.id===state.ai).label;}
+function repLabel(){return REP_OPTS.find(o=>o.id===state.rep).label;}
+
+/* ---------- Build sidebar (flat, no sub-groups) ---------- */
+function buildSide(){
+  const v = VIS[state.vis];
+  const item=(icon,label,cls='')=>`<div class="nav-item ${cls}">${ic(icon)}<span>${label}</span></div>`;
+  let h = `
+    <div class="brand"><svg height="23" viewBox="0 0 160 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="BrightLocal"><path d="M11 1C6.58 1 3 4.58 3 9c0 6 8 13.5 8 13.5S19 15 19 9c0-4.42-3.58-8-8-8Z" fill="#16C05F"/><path d="M11 13.2s-3.7-2.5-3.7-5.02c0-1.26.95-2.08 1.99-2.08.73 0 1.36.42 1.71.98.35-.56.98-.98 1.71-.98 1.04 0 1.99.82 1.99 2.08C14.7 10.7 11 13.2 11 13.2Z" fill="#fff"/><text x="26" y="17" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="16" font-weight="800" letter-spacing="-0.4" fill="#16C05F">brightlocal</text></svg></div>
+    ${item('pin','All Locations')}
+    ${item('dashboard','Location Dashboard','active')}
+    ${item('sparkles', aiLabel())}
+    ${v.children.map(c=>item(c.icon,c.label)).join('')}
+    ${item('link','Citations')}
+    ${item('star', repLabel())}
+    ${item('building','Google Business Profile')}
+    ${item('chart','Website performance')}
+    <div class="nav-div"></div>
+    ${item('settings','Location Manager')}
+    ${item('file','Client Reports')}
+  `;
+  document.getElementById('appSide').innerHTML = h;
+}
+
+/* ---------- Render radio controls ---------- */
+function radio(group,id,checked,label,sub){
+  return `<label class="radio-opt ${checked?'on':''}">
+    <input type="radio" name="${group}" value="${id}" ${checked?'checked':''}>
+    <span><span class="rl">${label}</span>${sub?`<span class="rs">${sub}</span>`:''}</span>
+  </label>`;
+}
+function renderControls(){
+  document.getElementById('aiOpts').innerHTML =
+    AI_OPTS.map(o=>radio('ai',o.id,state.ai===o.id,o.label,'')).join('');
+  document.getElementById('visOpts').innerHTML =
+    Object.values(VIS).map(v=>radio('vis',v.key,state.vis===v.key,v.name,v.sub)).join('');
+  document.getElementById('repOpts').innerHTML =
+    REP_OPTS.map(o=>radio('rep',o.id,state.rep===o.id,o.label,o.sub)).join('');
+}
+
+function renderAll(){renderControls();buildSide();}
+
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.name==='ai'){state.ai=t.value;renderAll();}
+  if(t.name==='vis'){state.vis=t.value;renderAll();}
+  if(t.name==='rep'){state.rep=t.value;renderAll();}
+});
+
+renderAll();
+</script>
+</body>
+</html>
